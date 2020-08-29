@@ -1,0 +1,167 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://InventoryUI.gd" type="Script" id=2]
+[ext_resource path="res://Fonts/RussoOne-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://TextBestFit.gd" type="Script" id=4]
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 20, 0.2, 40 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 10, 0.1, 20 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 20, 6, 1 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 10, 3, 0.5 )
+
+[sub_resource type="ConvexPolygonShape" id=14]
+points = PoolVector3Array( -10, -3, -0.5, -10, -3, 0.5, 10, -3, 0.5, 10, -3, -0.5, -10, 3, -0.2, 10, 3, -0.2, 10, 3, 0.2, -10, 3, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0.215686, 0.984314, 0.0588235, 1 )
+
+[sub_resource type="CubeMesh" id=9]
+material = SubResource( 8 )
+
+[sub_resource type="BoxShape" id=10]
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_color = Color( 0.937255, 0.129412, 0.0705882, 1 )
+
+[sub_resource type="CubeMesh" id=12]
+material = SubResource( 11 )
+size = Vector3( 2, 4, 2 )
+
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 1, 2, 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 26
+use_filter = true
+font_data = ExtResource( 3 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="World" type="CanvasLayer" parent="."]
+
+[node name="Player" type="KinematicBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/Player"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="World/Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="World/Player"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Floor" type="StaticBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/Floor"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/Floor"]
+shape = SubResource( 4 )
+
+[node name="Wall" type="StaticBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4.5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/Wall"]
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/Wall"]
+shape = SubResource( 6 )
+
+[node name="Wall2" type="StaticBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -20 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/Wall2"]
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/Wall2"]
+shape = SubResource( 14 )
+
+[node name="PushBlock" type="RigidBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.94645, -2.2263 )
+mass = 2.0
+angular_damp = 0.0
+
+[node name="MeshInstance" type="MeshInstance" parent="World/PushBlock"]
+mesh = SubResource( 9 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/PushBlock"]
+shape = SubResource( 10 )
+
+[node name="PushBlock2" type="RigidBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46341, 2.77404, 3.08187 )
+mass = 4.0
+angular_damp = 0.0
+
+[node name="MeshInstance" type="MeshInstance" parent="World/PushBlock2"]
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/PushBlock2"]
+shape = SubResource( 13 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="Inventory" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="UI/Inventory"]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 0
+grow_vertical = 0
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="UI/Inventory/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 0.075
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.0588235, 0.196078, 0.607843, 1 )
+text = "INVENTORY"
+align = 1
+valign = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="UI/Inventory/ColorRect"]
+anchor_left = 0.05
+anchor_top = 0.075
+anchor_right = 0.95
+anchor_bottom = 0.95
